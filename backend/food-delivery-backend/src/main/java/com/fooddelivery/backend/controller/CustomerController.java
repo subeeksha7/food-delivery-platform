@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fooddelivery.backend.dto.CustomerResponse;
+import com.fooddelivery.backend.dto.LoginRequest;
+import com.fooddelivery.backend.dto.LoginResponse;
 import com.fooddelivery.backend.dto.RegisterCustomerRequest;
 import com.fooddelivery.backend.service.CustomerService;
 
@@ -27,6 +29,15 @@ public class CustomerController {
     public ResponseEntity<CustomerResponse> addNewCustomer(@Valid @RequestBody RegisterCustomerRequest request) {
         CustomerResponse saved = customerService.createCustomer(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody LoginRequest request) {
+
+        LoginResponse response = customerService.login(request);
+
+        return ResponseEntity.ok(response);
     }
 
 }

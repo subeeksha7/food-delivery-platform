@@ -41,4 +41,28 @@ public ResponseEntity<Map<String, Object>> handleConflict(RuntimeException e) {
         return ResponseEntity.badRequest().body(errors);
     }
 
+    @ExceptionHandler({
+    InvalidCredentialsException.class
+})
+public ResponseEntity<Map<String, Object>> handleInvalidCredentials(InvalidCredentialsException e) {
+
+    Map<String, Object> body = Map.of(
+        "message", e.getMessage(),
+        "status", HttpStatus.UNAUTHORIZED.value(),
+        "timestamp", LocalDateTime.now()
+    );
+
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+}
+
+@ExceptionHandler(InvalidRefreshTokenException.class)
+public ResponseEntity<?> handleInvalidRefreshToken(
+        InvalidRefreshTokenException ex) {
+
+    return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
+            .body(Map.of("message", ex.getMessage()));
+}
+
+
 }

@@ -197,3 +197,17 @@ CREATE TABLE review (
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id),
     FOREIGN KEY (restaurant_id) REFERENCES restaurant(restaurant_id)
 );
+
+CREATE TABLE refresh_token (
+    refresh_token_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    customer_id BIGINT NOT NULL,
+    token_hash VARCHAR(64) NOT NULL UNIQUE,
+    token_family VARCHAR(36) NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    expires_at DATETIME NOT NULL,
+    revoked_at DATETIME NULL,
+
+    CONSTRAINT fk_refresh_token_customer
+        FOREIGN KEY (customer_id)
+        REFERENCES customer(customer_id)
+);
